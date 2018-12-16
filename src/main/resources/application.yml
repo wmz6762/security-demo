@@ -1,0 +1,24 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/security-social?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: mysql@93
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+sec:
+  security:
+    login-url: /login
+    logout-url: /logout
+    index-url: /index
+    anon-resources-url: /css/**,/js/**,/fonts/**,/img/**
+    social:
+      filter-processes-url: /login
+      social-redirect-url: /social
+      social-bind-url: /social/bind
+      social-regist-url: /social/regist
+      weibo:
+        provider-id: weibo
+        app-id: 1766676450
+        app-secret: 56e41feaf4db6955e4a8cdf82e38a00d
