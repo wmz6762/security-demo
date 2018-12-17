@@ -66,7 +66,7 @@
           </h4>
           <ul class="aui-shortcut__list">
             <li>
-              <a href="/login/weibo" style="color: #ec5c58;">
+              <a href="http://qq.com:8080/login/weibo" style="color: #ec5c58;">
                 <svg class="icon-svg" aria-hidden="true">
                   <use xlink:href="#icon-weibo-circle-fill"></use>
                 </svg>
@@ -110,9 +110,21 @@ export default {
   },
   methods: {
     dataFormSubmitHandle() {
+      var vm=this
       this.$refs["dataForm"].validate(function(valid) {
         if (valid) {
-          window.location.href = "../index.html";
+         vm.$http({
+              url: vm.$http.adornUrl("/login"),
+              method: "post",
+              params: vm.$http.adornParams({
+                username: vm.username,
+                password: vm.password,
+              })
+            }).then(res => {
+              // if (res.data === "ok") this.$router.replace({ name: "home" });
+              // else 
+              alert(res.data);
+            });
         }
       });
     }

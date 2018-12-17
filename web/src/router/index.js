@@ -7,19 +7,17 @@ import unauthorize from "@/page/403";
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
-  routes: [
-    {
+  // mode: 'history',
+  routes: [{
       name: "layout",
       component: layout,
-      path: "/",
-      children: [
-        {
-          path: "/index",
-          name: "index",
-          component: index
-        }
-      ]
+      path:"/",
+      redirect:"/home",
+      children: [{
+        path: "/home",
+        name: "home",
+        component: index
+      }]
     },
     {
       path: "/login",
@@ -27,9 +25,11 @@ export default new Router({
       component: login
     },
     {
-      path: "/403",
-      name: "unauthorize",
+      path: "*",
+      name:'404',
       component: unauthorize
-    }
+    },
+   
+    
   ]
 });

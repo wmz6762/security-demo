@@ -1,11 +1,15 @@
 <template>
- <main class="aui-page-main">
+  <!-- <main class="aui-page-main">
     <div class="aui-main__bd">
       <div class="aui-page page-index">
         asdasd
       </div>
     </div>
- </main>
+  </main>-->
+  <div>
+    <button @click="login">跳转到登录</button>
+    <button @click="unauthorize">跳转到403</button>
+  </div>
 </template>
 
 <script>
@@ -14,7 +18,14 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    login() {
+      this.$router.push({ name: "login" });
+    },
+    unauthorize() {
+      this.$router.push({ name: "unauthorize" });
+    }
+  },
   mounted() {}
 };
 </script>

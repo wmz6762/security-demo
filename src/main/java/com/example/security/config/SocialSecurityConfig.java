@@ -1,7 +1,10 @@
 package com.example.security.config;
 
+import com.example.security.handler.SECAuthenticationSuccessHandler;
 import com.example.security.properties.SecurityProperties;
 import com.example.security.social.SECSpringSocialConfigurer;
+import com.example.security.social.SocialConnectionSignUp;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +29,10 @@ import javax.sql.DataSource;
 public class SocialSecurityConfig extends SocialConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    private SocialConnectionSignUp socialConnectionSignUp;
+    @Autowired
+    private SECAuthenticationSuccessHandler secAuthenticationSuccessHandler;
 
     /**
      * 配置连接到用户数据库
@@ -37,6 +44,7 @@ public class SocialSecurityConfig extends SocialConfigurerAdapter {
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         JdbcUsersConnectionRepository jdbcUsersConnectionRepository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
         jdbcUsersConnectionRepository.setTablePrefix("t_");//设置连接表的前缀
+        jdbcUsersConnectionRepository.setConnectionSignUp(socialConnectionSignUp);
         return jdbcUsersConnectionRepository;
     }
 
@@ -50,6 +58,7 @@ public class SocialSecurityConfig extends SocialConfigurerAdapter {
     public SpringSocialConfigurer febsSocialSecurityConfig(SecurityProperties securityProperties) {
         SECSpringSocialConfigurer springSocialConfigurer = new SECSpringSocialConfigurer();
         springSocialConfigurer.setFebsSecurityProperties(securityProperties);
+        springSocialConfigurer.setSecAuthenticationSuccessHandler(secAuthenticationSuccessHandler);
         return springSocialConfigurer;
     }
 
@@ -63,5 +72,7 @@ public class SocialSecurityConfig extends SocialConfigurerAdapter {
     public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator) {
         return new ProviderSignInUtils(connectionFactoryLocator, getUsersConnectionRepository(connectionFactoryLocator));
     }
+
+
 
 }

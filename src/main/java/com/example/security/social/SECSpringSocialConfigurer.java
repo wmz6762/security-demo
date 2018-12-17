@@ -1,5 +1,6 @@
 package com.example.security.social;
 
+import com.example.security.handler.SECAuthenticationSuccessHandler;
 import com.example.security.properties.SecurityProperties;
 import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.social.security.SpringSocialConfigurer;
@@ -8,7 +9,11 @@ import org.springframework.social.security.SpringSocialConfigurer;
  * 配置social
  */
 public class SECSpringSocialConfigurer extends SpringSocialConfigurer {
+
+
     private SecurityProperties securityProperties;
+
+    private SECAuthenticationSuccessHandler secAuthenticationSuccessHandler;
     /**
      * 修改social 默认配置
      * setFilterProcessesUrl 登录url组成由 socialAuthenticationFilter.setFilterProcessesUrl 和
@@ -22,6 +27,7 @@ public class SECSpringSocialConfigurer extends SpringSocialConfigurer {
         SocialAuthenticationFilter socialAuthenticationFilter = (SocialAuthenticationFilter)super.postProcess(object);
         socialAuthenticationFilter.setFilterProcessesUrl(securityProperties.getSocial().getFilterProcessesUrl());// 三方登录请求的前半部分url
         socialAuthenticationFilter.setSignupUrl(securityProperties.getSocial().getSocialRedirectUrl());//三方获取完成后用户登录url
+        socialAuthenticationFilter.setAuthenticationSuccessHandler(secAuthenticationSuccessHandler);
         return (T) socialAuthenticationFilter;
     }
 
@@ -29,4 +35,11 @@ public class SECSpringSocialConfigurer extends SpringSocialConfigurer {
         this.securityProperties = securityProperties;
     }
 
+    public SECAuthenticationSuccessHandler getSecAuthenticationSuccessHandler() {
+        return secAuthenticationSuccessHandler;
+    }
+
+    public void setSecAuthenticationSuccessHandler(SECAuthenticationSuccessHandler secAuthenticationSuccessHandler) {
+        this.secAuthenticationSuccessHandler = secAuthenticationSuccessHandler;
+    }
 }

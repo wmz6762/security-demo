@@ -9,6 +9,7 @@ import '@/assets/css/element-theme/blue/index.css'
 import '@/assets/css/aui-blue.min.css'
 import '@/assets/icons/iconfont'
 
+
 Vue.config.productionTip = false
 // 挂载全局
 Vue.prototype.$http = http // ajax请求方法
