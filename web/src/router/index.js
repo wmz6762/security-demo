@@ -25,8 +25,8 @@ export default new Router({
       component: login
     },
     {
-      path: "*",
-      name:'404',
+      path: "/403",
+      name:'403',
       component: unauthorize
     },
    

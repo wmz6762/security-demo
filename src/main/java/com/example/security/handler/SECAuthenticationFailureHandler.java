@@ -1,5 +1,6 @@
 package com.example.security.handler;
 
+import com.example.security.exception.ValidateCodeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,6 +26,8 @@ public class SECAuthenticationFailureHandler implements AuthenticationFailureHan
             message = "账户名或者密码输入错误!";
         else if (e instanceof LockedException)
             message = "账户被锁定";
+        else if( e instanceof ValidateCodeException)
+            message = e.getMessage();
         else
             message = "登录失败";
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);

@@ -1,6 +1,8 @@
 package com.example.security.config;
 
 
+import com.example.security.filter.KaptchaAuthenticationFilter;
+import com.example.security.handler.SECAuthenticationAccessDeniedHandler;
 import com.example.security.handler.SECAuthenticationFailureHandler;
 import com.example.security.handler.SECAuthenticationSuccessHandler;
 import com.example.security.properties.SecurityProperties;
@@ -8,6 +10,7 @@ import com.example.security.service.UserDetailService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -15,6 +18,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.servlet.ServletException;
@@ -26,6 +31,13 @@ import java.io.IOException;
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements AuthenticationEntryPoint {
 
     @Autowired
+    AccessDecisionManagerConf accessDecisionManagerConf;
+    @Autowired
+    InvocationSecurityMetadataSourceConf invocationSecurityMetadataSourceConf;
+
+
+
+    @Autowired
     private SpringSocialConfigurer socialSecurityConfig;
     @Autowired
     private SecurityProperties securityProperties;
@@ -35,16 +47,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
     private SECAuthenticationSuccessHandler authenticationSuccessHandler;
     @Autowired
     private SECAuthenticationFailureHandler authenticationFailureHandler;
+    @Autowired
+    SECAuthenticationAccessDeniedHandler authenticationAccessDeniedHandler;
+
+    @Autowired
+    KaptchaAuthenticationFilter kaptchaAuthenticationFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //获取可匿名访问路径
         String[] anonResourcesUrl = StringUtils.splitByWholeSeparatorPreserveAllTokens(securityProperties.getAnonResourcesUrl(), ",");
 
-        http.formLogin()
+        http.authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+            @Override
+            public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                o.setSecurityMetadataSource(invocationSecurityMetadataSourceConf);
+                o.setAccessDecisionManager(accessDecisionManagerConf);
+                return o;
+            }
+        })
+                .and().formLogin()
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
                 .and()
+
                 .logout()
                 .logoutUrl(securityProperties.getLogoutUrl())
                 .logoutSuccessUrl(securityProperties.getWebUrl())
@@ -59,7 +85,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
                 .anyRequest().authenticated()
                 .and().apply(socialSecurityConfig)
                 .and().exceptionHandling().authenticationEntryPoint(this)
-                .and().csrf().disable();
+                .and().csrf().disable()
+                .exceptionHandling().accessDeniedHandler(authenticationAccessDeniedHandler)
+                .and()
+                .addFilterBefore(kaptchaAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override

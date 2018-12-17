@@ -46,7 +46,7 @@
                 </el-input>
               </el-col>
               <el-col :span="10" class="login-captcha">
-                <!-- <img src="../img/captcha.png" alt> -->
+                <img :src="dataForm.captchaPath" @click="getCaptcha()">
               </el-col>
             </el-row>
           </el-form-item>
@@ -66,7 +66,7 @@
           </h4>
           <ul class="aui-shortcut__list">
             <li>
-              <a href="http://qq.com:8080/login/weibo" style="color: #ec5c58;">
+              <a href="/login/weibo" style="color: #ec5c58;">
                 <svg class="icon-svg" aria-hidden="true">
                   <use xlink:href="#icon-weibo-circle-fill"></use>
                 </svg>
@@ -77,13 +77,14 @@
         <!-- <p class="login-guide">
           还没有账号？
           <a href="./register@@v2.html">立即注册</a>
-        </p> -->
+        </p>-->
       </main>
     </div>
   </div>
 </template>
 
 <script>
+import { getUUID } from "@/util/index";
 export default {
   name: "index",
   data() {
@@ -93,6 +94,7 @@ export default {
         username: "",
         password: "",
         captcha: "",
+        captchaPath: "",
         rememb: false
       },
       dataRule: {
@@ -108,23 +110,37 @@ export default {
       }
     };
   },
+  created() {
+    this.getCaptcha();
+  },
   methods: {
+    getCaptcha() {
+      this.uuid = getUUID();
+      this.dataForm.captchaPath = this.$http.adornUrl(
+        `/captcha.jpg?uuid=${this.uuid}`
+      );
+    },
+    login() {
+      this.$http({
+        url: this.$http.adornUrl("/login"),
+        method: "post",
+        params: this.$http.adornParams({
+          username: this.dataForm.username,
+          password: this.dataForm.password,
+          captcha: this.dataForm.captcha
+        })
+      }).then(res => {
+        // if (res.data === "ok") this.$router.replace({ name: "home" });
+        // else
+          this.$router.push({name:"home"})
+      });
+    },
+
     dataFormSubmitHandle() {
-      var vm=this
+      var $this=this
       this.$refs["dataForm"].validate(function(valid) {
         if (valid) {
-         vm.$http({
-              url: vm.$http.adornUrl("/login"),
-              method: "post",
-              params: vm.$http.adornParams({
-                username: vm.username,
-                password: vm.password,
-              })
-            }).then(res => {
-              // if (res.data === "ok") this.$router.replace({ name: "home" });
-              // else 
-              alert(res.data);
-            });
+            $this.login();
         }
       });
     }

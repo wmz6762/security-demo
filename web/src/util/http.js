@@ -25,19 +25,6 @@ http.interceptors.request.use(config => {
  * 响应拦截
  */
 http.interceptors.response.use(response => {
-  if (response.data && response.status === 401) { // 401, token失效
-    router.push({
-      name: 'login'
-    }, () => {
-      location.reload() // 刷新页面, 清空整站临时存储数据
-    })
-  } else if (response.data && response.data.code === 403) {
-    router.push({
-      name: 'unauthorize'
-    }, () => {
-      location.reload() // 刷新页面, 清空整站临时存储数据
-    })
-  }
   return response
 }, error => {
   if (error.response.status === 401) {
@@ -47,10 +34,11 @@ http.interceptors.response.use(response => {
       location.reload()
     })
   } else if (error.response.status === 403) {
+    debugger
     router.push({
-      name: 'unauthorize'
+      name: '403'
     }, () => {
-      location.reload() // 刷新页面, 清空整站临时存储数据
+      
     })
   }
   return Promise.reject(error)
@@ -62,7 +50,7 @@ http.interceptors.response.use(response => {
  */
 http.adornUrl = (actionName) => {
   // 非生产环境 && 开启代理, 接口前缀统一使用[/proxyApi/]前缀做代理拦截!
-  return (process.env.NODE_ENV !== 'production' ? '/proxyApi/' : window.SITE_CONFIG.baseUrl) + actionName
+  return (process.env.NODE_ENV !== 'production' ? '/proxyApi/' : '') + actionName
 }
 
 /**

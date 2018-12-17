@@ -16,6 +16,10 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           '^/proxyApi': '/'
+        },
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          //'X-user-id':'9ccwwwwkkbwwe'
         }
       }
     },
@@ -28,7 +32,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */
