@@ -1,5 +1,7 @@
 <template>
-  <div>{{user}}</div>
+  <div>
+    <button @click="login">三方登录</button>
+  </div>
 </template>
 
 <script>
@@ -11,17 +13,17 @@ export default {
     };
   },
   methods: {
-    getCurrentUser() {
+    login() {
       this.$http({
-        url: this.$http.adornUrl("/account"),
+        url: this.$http.adornUrl("/login/weibo"),
         method: "get"
       }).then(res => {
-        this.user = res;
+        console.log(...res);
       });
     }
   },
   created() {
-    this.getCurrentUser();
+  
   }
 };
 </script>

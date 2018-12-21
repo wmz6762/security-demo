@@ -26,6 +26,8 @@ public class SECSpringSocialConfigurer extends SpringSocialConfigurer {
     protected <T> T postProcess(T object) {
         SocialAuthenticationFilter socialAuthenticationFilter = (SocialAuthenticationFilter)super.postProcess(object);
         socialAuthenticationFilter.setFilterProcessesUrl(securityProperties.getSocial().getFilterProcessesUrl());// 三方登录请求的前半部分url
+//        socialAuthenticationFilter.setPostLoginUrl("");
+
         socialAuthenticationFilter.setSignupUrl(securityProperties.getSocial().getSocialRedirectUrl());//三方获取完成后用户登录url
         socialAuthenticationFilter.setAuthenticationSuccessHandler(secAuthenticationSuccessHandler);
         return (T) socialAuthenticationFilter;

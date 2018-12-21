@@ -10,7 +10,7 @@ import org.springframework.util.AntPathMatcher;
 import java.util.Collection;
 import java.util.HashMap;
 
-@Component
+
 public class InvocationSecurityMetadataSourceConf implements FilterInvocationSecurityMetadataSource {
 
     private HashMap<String, String[]> map = null;

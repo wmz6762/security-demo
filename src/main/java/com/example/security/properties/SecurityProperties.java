@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class SecurityProperties {
     private String loginUrl;
     private String logoutUrl;
-    private String webUrl;
+    private String indexUrl;
     private String anonResourcesUrl;
     private SocialProperties social = new SocialProperties();
 }

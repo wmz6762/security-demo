@@ -9,10 +9,10 @@ spring:
 
 sec:
   security:
-    login-url: /#/login
+    login-url: /login
     logout-url: /logout
-    web-url: /
-    anon-resources-url: /css/**,/js/**,/fonts/**,/img/**,/captcha.jpg
+    index-url: /
+    anon-resources-url: /css/**,/js/**,/fonts/**,/img/**,/captcha.jpg,/icons/**
     social:
       filter-processes-url: /login
       social-redirect-url: /social

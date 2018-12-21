@@ -28,17 +28,12 @@ http.interceptors.response.use(response => {
   return response
 }, error => {
   if (error.response.status === 401) {
-    router.push({
-      name: 'login'
-    }, () => {
-      location.reload()
-    })
+    location.href = "/login"
   } else if (error.response.status === 403) {
-    debugger
     router.push({
       name: '403'
     }, () => {
-      
+
     })
   }
   return Promise.reject(error)

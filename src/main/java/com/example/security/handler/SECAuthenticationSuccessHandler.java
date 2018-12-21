@@ -36,9 +36,9 @@ public class SECAuthenticationSuccessHandler implements AuthenticationSuccessHan
 //            loginType = userDetails.getLoginType();
 //        }
 
-        if(principal instanceof SocialUserDetails){
-            redirectStrategy.sendRedirect(httpServletRequest,httpServletResponse,"/");
-        }
+//        if(principal instanceof SocialUserDetails){
+//            redirectStrategy.sendRedirect(httpServletRequest,httpServletResponse,"/");
+//        }
     }
 
 
