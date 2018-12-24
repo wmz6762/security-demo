@@ -1,6 +1,7 @@
 <template>
   <div>
-    <button @click="login">三方登录</button>
+    <h2>{{user}}</h2>
+     <button @click="account">获取当前登录用户信息</button>
   </div>
 </template>
 
@@ -9,21 +10,18 @@ export default {
   name: "index",
   data() {
     return {
-      user: ""
+      user: "没有用户信息"
     };
   },
   methods: {
-    login() {
+    account() {
       this.$http({
-        url: this.$http.adornUrl("/login/weibo"),
+        url: this.$http.adornUrl("/account"),
         method: "get"
       }).then(res => {
-        console.log(...res);
+        this.user=res.data
       });
     }
-  },
-  created() {
-  
   }
 };
 </script>

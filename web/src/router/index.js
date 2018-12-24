@@ -3,10 +3,11 @@ import Router from "vue-router";
 import index from "@/page/index";
 import layout from "@/page/layout";
 import unauthorize from "@/page/403";
+import login from "@/page/login";
 Vue.use(Router);
 
 export default new Router({
-  // mode: 'history',
+  mode: 'history',
   routes: [{
       name: "layout",
       component: layout,
@@ -23,6 +24,11 @@ export default new Router({
       name:'403',
       component: unauthorize
     },
+    {
+      path:'/login',
+      name:'login',
+      component:login
+    }
    
     
   ]

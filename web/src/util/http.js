@@ -28,7 +28,11 @@ http.interceptors.response.use(response => {
   return response
 }, error => {
   if (error.response.status === 401) {
-    location.href = "/login"
+    router.push({
+      name: 'login'
+    }, () => {
+
+    })
   } else if (error.response.status === 403) {
     router.push({
       name: '403'

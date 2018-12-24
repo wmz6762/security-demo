@@ -62,12 +62,7 @@ public class SocialController {
         providerSignInUtils.doPostSignUp("张三", new ServletWebRequest(request));
     }
 
-    /**
-     * 社交账户注册
-     */
-    public void socialRegist(){
 
-    }
 
 
 

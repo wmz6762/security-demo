@@ -3,9 +3,10 @@ package com.example.security.domain.dto.sys;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 
-public class UserTo implements UserDetails {
+public class UserTo implements UserDetails, Serializable {
 
     private int id;
     private String name;

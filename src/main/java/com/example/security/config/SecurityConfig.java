@@ -100,11 +100,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        if (isAjaxRequest(request)) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
-        } else {
-            response.sendRedirect(securityProperties.getLoginUrl());
-        }
+//        if (isAjaxRequest(request)) {
+//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+//        } else {
+//            response.sendRedirect(securityProperties.getLoginUrl());
+//        }
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
     }
 
     public static boolean isAjaxRequest(HttpServletRequest request) {

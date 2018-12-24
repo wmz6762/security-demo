@@ -1972,7 +1972,7 @@ a:hover {
 }
 
 .aui-page.page-login::before {
-    background-image: url(../../../../src/main/resources/public/img/login_bg.jpg);
+    background-image: url(../images/login_bg.jpg);
     background-size: cover
 }
 

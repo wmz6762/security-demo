@@ -29,7 +29,12 @@ public class SECSpringSocialConfigurer extends SpringSocialConfigurer {
 //        socialAuthenticationFilter.setPostLoginUrl("");
 
         socialAuthenticationFilter.setSignupUrl(securityProperties.getSocial().getSocialRedirectUrl());//三方获取完成后用户登录url
+
+//        socialAuthenticationFilter.setConnectionAddedRedirectUrl("http://127.0.0.1:8081/home");
         socialAuthenticationFilter.setAuthenticationSuccessHandler(secAuthenticationSuccessHandler);
+
+
+//        socialAuthenticationFilter.setConnectionAddedRedirectUrl("http://127.0.0.1:8081/home");
         return (T) socialAuthenticationFilter;
     }
 
