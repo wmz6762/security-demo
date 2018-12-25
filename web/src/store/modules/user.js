@@ -1,15 +1,17 @@
+import { stat } from "fs";
+
 export default {
     namespaced: true,
     state: {
-      id: 0,
-      name: ''
+      id: null,
+      name: null,
+      menus:[]
     },
     mutations: {
-      updateId (state, id) {
-        state.id = id
-      },
-      updateName (state, name) {
-        state.name = name
+      updateUser(state,user){
+        state.id=user.id;
+        state.menus=user.menus;
+        state.name=user.name;
       }
     }
   }

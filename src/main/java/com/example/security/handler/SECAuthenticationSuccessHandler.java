@@ -49,7 +49,7 @@ public class SECAuthenticationSuccessHandler implements AuthenticationSuccessHan
             // 只对账号密码登录的方式生效 =。=
 //            authenticationStrategy.onAuthentication(authentication, request, response);
 //            request.getRequestDispatcher("http://127.0.0.1:8080/home").forward(request, response);
-            redirectStrategy.sendRedirect(request, response,"http://127.0.0.1:8081/home");
+            redirectStrategy.sendRedirect(request, response,"http://127.0.0.1:8081/");
 
         }
 

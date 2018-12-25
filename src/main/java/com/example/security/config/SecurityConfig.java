@@ -6,6 +6,7 @@ import com.example.security.filter.KaptchaAuthenticationFilter;
 import com.example.security.handler.SECAuthenticationAccessDeniedHandler;
 import com.example.security.handler.SECAuthenticationFailureHandler;
 import com.example.security.handler.SECAuthenticationSuccessHandler;
+import com.example.security.handler.SECLogoutSuccessHandler;
 import com.example.security.properties.SecurityProperties;
 import com.example.security.service.UserDetailService;
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
     private SECAuthenticationFailureHandler authenticationFailureHandler;
     @Autowired
     SECAuthenticationAccessDeniedHandler authenticationAccessDeniedHandler;
-
+    @Autowired
+    SECLogoutSuccessHandler secLogoutSuccessHandler;
     @Autowired
     KaptchaAuthenticationFilter kaptchaAuthenticationFilter;
 
@@ -76,7 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
                 .and()
                 .logout()
                 .logoutUrl(securityProperties.getLogoutUrl())
-                .logoutSuccessUrl(securityProperties.getLoginUrl())
+                .logoutSuccessHandler(secLogoutSuccessHandler)
                 .and()
                 .authorizeRequests().antMatchers(anonResourcesUrl).permitAll()
                 .antMatchers(
