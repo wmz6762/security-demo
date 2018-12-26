@@ -24,7 +24,6 @@ Vue.prototype._ = _
 Vue.use(ElementUI);
 
 router.beforeEach((to, from, next) => {
-  debugger
   NProgress.start();
   if (to.meta.global) {
     next()
