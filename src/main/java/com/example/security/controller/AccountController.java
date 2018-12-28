@@ -25,7 +25,7 @@ public class AccountController {
     public UserVo getCurrentUser() throws JsonProcessingException {
 
         List<MenuVo> menus=new ArrayList<>();
-        menus.add(new MenuVo(1,"home","主页", "/","#icon-home"));
+        menus.add(new MenuVo(1,"index","主页", "/","#icon-home"));
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserTo) {
             UserTo model = (UserTo) authentication.getPrincipal();

@@ -80,7 +80,7 @@ export default {
         method: "get"
       }).then(({ data }) => {
         if (data === "ok") {
-          this.$router.push({name:'login'})
+          window.location.href="/login"
         } else {
           alert(data);
         }

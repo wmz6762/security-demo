@@ -130,17 +130,19 @@ export default {
           captcha: this.dataForm.captcha
         })
       }).then(res => {
-        // if (res.data === "ok") this.$router.replace({ name: "home" });
-        // else
-          this.$router.push({name:"home"})
+        if (res.data === "ok") {
+          this.$router.push({ name: "home" });
+        } else {
+          alert(res.data);
+        }
       });
     },
 
     dataFormSubmitHandle() {
-      var $this=this
+      var $this = this;
       this.$refs["dataForm"].validate(function(valid) {
         if (valid) {
-            $this.login();
+          $this.login();
         }
       });
     }

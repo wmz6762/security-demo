@@ -1,19 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
-
-import index from "@/page/index";
-import layout from "@/page/layout";
-import unauthorize from "@/page/403";
-import login from "@/page/login";
-import menu1 from "@/page/menu1"
-
-
 Vue.use(Router);
-
 
 const globalRoutes = [{
     path: '/login',
-    component: login,
+    component:  require('@/page/login.vue').default,
     name: 'login',
     global: true,
     meta: {
@@ -25,33 +16,29 @@ const globalRoutes = [{
     path: "/403",
     name: '403',
     global: true,
-    component: unauthorize,
+    component: require('@/page/403.vue').default,
     meta: {
       title: '403',
+      global: true,
+    }
+  },
+  {
+    path: "/404",
+    name: '404',
+    global: true,
+    component: require('@/page/404.vue').default,
+    meta: {
+      title: '404',
       global: true,
     }
   }
 ]
 
-const mainRoutes = {
-  name: "layout",
-  component: layout,
-  redirect: "home",
-  path: '/',
-  children: [{
-    path: "/",
-    name: "home",
-    component: index
-  }, {
-    path: '/menu1',
-    name: 'menu1',
-    component: menu1
-  }]
-}
+
 
 const router = new Router({
   mode: 'history',
-  routes: globalRoutes.concat(mainRoutes)
+  routes: globalRoutes
 });
 
 export default router;

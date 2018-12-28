@@ -23,34 +23,65 @@ Vue.prototype._ = _
 
 Vue.use(ElementUI);
 
+var mainRoutes = [{
+  name: "layout",
+  component: require('@/page/layout.vue').default,
+  redirect: "home",
+  path: '/',
+  children: []
+}]
+
+
+
 router.beforeEach((to, from, next) => {
   NProgress.start();
   if (to.meta.global) {
     next()
+    NProgress.done();
   } else {
     if (_.isEmpty(store.state.user.id)) {
-      http( {
-         url: http.adornUrl('/account'),
-         method: 'get',
-      }).then(( { data } ) => {
+      http({
+        url: http.adornUrl('/account'),
+        method: 'get',
+      }).then(({
+        data
+      }) => {
         if (data) {
-          store.commit('user/updateUser', data)
-          next({ ...to, replace: true })
+          store.commit('user/updateUser', data);
+          let mainContainer = mainRoutes.find(v => v.path === '/')
+          debugger
+          data.menus.forEach(item => {
+            mainContainer.children.push({
+              path: item.path,
+              name: item.name,
+              component: require('@/page/' + item.name + '.vue').default,
+            })
+          })
+          router.addRoutes(mainRoutes)
+          next({
+            path: to.path
+          })
+          // next();
+          NProgress.done();
         } else {
           next()
+          NProgress.done();
         }
       })
     } else {
-      var flag = false;
-      store.state.user.menus.forEach(item=>{
-        if( item.path === to.path ) {
-          flag = true
-        }
-      })
-      flag ? next() : next( { path:'/403' } )
+      debugger
+      if (to.matched.length === 0) {
+        next({
+          path: '/403'
+        })
+        NProgress.done();
+      } else {
+        next()
+        NProgress.done();
+      }
     }
   }
-  NProgress.done();
+
 })
 
 
